@@ -1,5 +1,5 @@
 const connection = require('../config/database')
-
+const {getAllUsers} = require('../services/CRUDService')
 
 const gettest = (req,res) => {
     let users = []
@@ -15,8 +15,12 @@ const gettest = (req,res) => {
 
 }
 
-const getHomePage = (req,res) => {
-    return res.render('home.ejs')
+const getHomePage = async (req,res) => {
+    let results = await getAllUsers();
+    // để check kết quả khi không dùng await, có thể dùng như sau:
+    // console.log ('>>>>>check row', connection.query('select * from Users'))
+    return res.render('home.ejs', {listUsers: results}) // x <- y
+
 }
 
 const getABC = (req,res) => {

@@ -9,6 +9,10 @@ const port = process.env.PORT || 8888 //port --> hardcode
 const hostname = process.env.HOST_NAME
 const path = require ('path')
 
+//config req.body
+app.use(express.json()) // for json
+app.use(express.urlencoded({ extended: true })) // for form data
+
 //config template enj
 configViewEngine(app);
 

@@ -17,11 +17,18 @@ app.use(express.urlencoded({ extended: true })) // for form data
 configViewEngine(app);
 
 // khai báo route
-app.use('/',webRoutes)
+app.use('/',webRoutes);
 
+ (async() => {
 //TEST CONNECTION
- connection();
+ try {
+  await connection();
+  app.listen(port, hostname, () => {
+    console.log(`backend zero app listening on port ${port}`)
+  })
+ } catch(error){
+console.log(">>error connect to DB: ",error)
+ }
+ })()
 
-app.listen(port, hostname, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+

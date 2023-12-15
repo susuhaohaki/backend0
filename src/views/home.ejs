@@ -70,7 +70,11 @@
           <td><%= users.CITY %></td>
           <td>
             <a href="/update/<%= users.ID %>">Edit</a>
-            <button>Delete</button>
+
+            <form action="/delete-user/<%= users.ID %>" method="POST">
+              <button>Delete</button>
+            </form>
+            
           </td>
         </tr>
         <% }); %>

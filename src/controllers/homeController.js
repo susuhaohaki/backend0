@@ -1,5 +1,5 @@
 const connection = require('../config/database')
-const {getAllUsers,getUserById,updateUserById} = require('../services/CRUDService')
+const {getAllUsers,getUserById,updateUserById,deleteUserById} = require('../services/CRUDService')
 
 const gettest = (req,res) => {
     let users = []
@@ -79,11 +79,25 @@ const postUpdateUser = async (req,res) => {
     let city = req.body.city; 
     let userId  = req.body.userId;
     await updateUserById(email, name, city, userId)
-    console.log ('email = ',email, 'name = ', name , 'city = ', city, 'userId: ',userId);
+    // console.log ('email = ',email, 'name = ', name , 'city = ', city, 'userId: ',userId);
     res.redirect('/')
     // res.send("Update a user succeed")
     }
 
+const postDeleteUser = async(req,res) => {
+    const userId = req.params.id
+    let user = await getUserById(userId)
+    res.render('delete.ejs',{userEdit : user})
+    }
+
+const postHandleRemoveUser = async(req,res) => {
+    let userId  = req.body.userId;
+    await deleteUserById(userId);
+    res.redirect('/')
+    }
 module.exports = {
-    getHomePage, getABC, gettest, postCreateUser,getCreatePage,getUpdatePage,postUpdateUser
+    getHomePage, getABC, gettest,
+    postCreateUser,getCreatePage,
+    getUpdatePage,postUpdateUser,
+    postDeleteUser, postHandleRemoveUser
 }

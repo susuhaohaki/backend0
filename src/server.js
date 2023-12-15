@@ -4,6 +4,7 @@ const app = express();//app express
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
 const connection = require('./config/database')
+const mongoose = require('mongoose')
 
 const port = process.env.PORT || 8888 //port --> hardcode
 const hostname = process.env.HOST_NAME
@@ -18,6 +19,16 @@ configViewEngine(app);
 
 // khai báo route
 app.use('/',webRoutes);
+
+
+const kittySchema = new mongoose.Schema({
+  name: String
+});
+
+const Kitten = mongoose.model('Kitten', kittySchema);
+const cat = new Kitten({ name: 'haine cat' });
+
+cat.save();
 
  (async() => {
 //TEST CONNECTION

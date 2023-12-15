@@ -20,15 +20,7 @@ configViewEngine(app);
 app.use('/',webRoutes)
 
 //TEST CONNECTION
-
-
-// simple query
-// connection.query(
-//   'SELECT * from USERS',
-//   function(err, results, fields) {
-//     console.log('>>>>>RESULTS =',results); // results contains rows returned by server
-//   }
-// );
+ connection();
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`)

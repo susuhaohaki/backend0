@@ -4,7 +4,7 @@ const app = express();//app express
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
 const connection = require('./config/database')
-const mongoose = require('mongoose')
+const kitten = require('./models/kitten')
 
 const port = process.env.PORT || 8888 //port --> hardcode
 const hostname = process.env.HOST_NAME
@@ -20,38 +20,20 @@ configViewEngine(app);
 // khai báo route
 app.use('/',webRoutes);
 
-
-const kittySchema = new mongoose.Schema({
-  name: String
-});
-
-const Kitten = mongoose.model('Kitten', kittySchema);
-const cat = new Kitten({ name: 'haine cat' });
-
+const cat = new kitten({ name: 'Hoi Dan It Model' });
 cat.save();
 
- (async() => {
 //TEST CONNECTION
-<<<<<<< HEAD
- try {
-  await connection();
-  app.listen(port, hostname, () => {
-    console.log(`backend zero app listening on port ${port}`)
-  })
- } catch(error){
-console.log(">>error connect to DB: ",error)
- }
- })()
-
-=======
+  (async()=>{
+    try {
+      await connection();
+      app.listen(port, hostname, () => {
+        console.log(`backen zero app listening on port ${port}`)
+      })
+    }catch (error){
+      console.log ('error connect to DB: ', error)
+    } 
+  })()
 
 
-// simple query
-// connection.query(
-//   'SELECT * from USERS',
-//   function(err, results, fields) {
-//     console.log('>>>>>RESULTS =',results); // results contains rows returned by server
-//   }
-// );
->>>>>>> parent of b1ced3f (#57. Create Connection)
 

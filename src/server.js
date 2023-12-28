@@ -32,6 +32,7 @@ cat.save();
 
  (async() => {
 //TEST CONNECTION
+<<<<<<< HEAD
  try {
   await connection();
   app.listen(port, hostname, () => {
@@ -42,4 +43,15 @@ console.log(">>error connect to DB: ",error)
  }
  })()
 
+=======
+
+
+// simple query
+// connection.query(
+//   'SELECT * from USERS',
+//   function(err, results, fields) {
+//     console.log('>>>>>RESULTS =',results); // results contains rows returned by server
+//   }
+// );
+>>>>>>> parent of b1ced3f (#57. Create Connection)
 

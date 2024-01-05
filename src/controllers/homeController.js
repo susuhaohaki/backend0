@@ -15,8 +15,10 @@ const gettest = (req,res) => {
 
 }
 
+const User = require('../models/user')
+
 const getHomePage = async (req,res) => {
-    let results = await getAllUsers();
+    let results = [];
     // để check kết quả khi không dùng await, có thể dùng như sau:
     // console.log ('>>>>>check row', connection.query('select * from Users'))
     return res.render('home.ejs', {listUsers: results}) // x <- y
@@ -44,20 +46,15 @@ const postCreateUser = async (req,res) => {
     //     }
     // );
     
-    let [results,fields] = await connection.query(
-        `INSERT INTO Users  (EMAIL, NAME , CITY) VALUES (?, ?, ?)`,[email, name, city]
-    );
-    console.log('>>>>>>check results', results)
-    res.send("create a new user succeed")
-    // connection.query(
-    // 'SELECT * from USERS',
-    // function(err, results, fields) {
-    //     console.log('>>>>>RESULTS =',results); // results contains rows returned by server
-    //     }
+    // let [results,fields] = await connection.query(
+    //     `INSERT INTO Users  (EMAIL, NAME , CITY) VALUES (?, ?, ?)`,[email, name, city]
     // );
-
-    // const[results,fields] = await connection.query('select * from Users u')
-
+    await User.Create({
+        email: email,
+        name: name,
+        city: city
+    })
+    res.send("create a new user succeed")
     }
 
 const getCreatePage = (req,res) => {

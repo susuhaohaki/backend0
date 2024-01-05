@@ -4,7 +4,7 @@ const app = express();//app express
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
 const connection = require('./config/database')
-const kitten = require('./models/kitten')
+
 
 const port = process.env.PORT || 8888 //port --> hardcode
 const hostname = process.env.HOST_NAME
@@ -19,9 +19,6 @@ configViewEngine(app);
 
 // khai báo route
 app.use('/',webRoutes);
-
-const cat = new kitten({ name: 'Hoi Dan It Model' });
-cat.save();
 
 //TEST CONNECTION
   (async()=>{

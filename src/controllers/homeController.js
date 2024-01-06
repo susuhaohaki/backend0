@@ -18,10 +18,8 @@ const gettest = (req,res) => {
 const User = require('../models/user')
 
 const getHomePage = async (req,res) => {
-    let results = [];
-    // để check kết quả khi không dùng await, có thể dùng như sau:
-    // console.log ('>>>>>check row', connection.query('select * from Users'))
-    return res.render('home.ejs', {listUsers: results}) // x <- y
+    let results = await User.find({});
+    return res.render('home.ejs', {listUsers: results})
 
 }
 
@@ -32,11 +30,10 @@ const getABC = (req,res) => {
 const postCreateUser = async (req,res) => {
     
     let email = req.body.email;
-    let name = req.body.myname;
+    let name = req.body.name;
     let city = req.body.city;
     console.log ('email = ',email, 'name = ', name , 'city = ', city );
     // let {email, name, city} = req.body;
-
     // connection.query(
     //     `INSERT INTO Users  (EMAIL, NAME , CITY)
     //      VALUES (?, ?, ?)`,
@@ -49,13 +46,13 @@ const postCreateUser = async (req,res) => {
     // let [results,fields] = await connection.query(
     //     `INSERT INTO Users  (EMAIL, NAME , CITY) VALUES (?, ?, ?)`,[email, name, city]
     // );
-    await User.Create({
+    await User.create({
         email: email,
         name: name,
-        city: city
+        city: city,
     })
     res.send("create a new user succeed")
-    }
+}
 
 const getCreatePage = (req,res) => {
     res.render('create.ejs')

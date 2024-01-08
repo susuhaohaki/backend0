@@ -3,6 +3,8 @@ const express = require('express'); //commonjs
 const app = express();//app express
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
+const apiRoutes = require('./routes/api')
+
 const connection = require('./config/database')
 
 
@@ -19,6 +21,8 @@ configViewEngine(app);
 
 // khai báo route
 app.use('/',webRoutes);
+app.use('/v1/api',apiRoutes);
+
 
 //TEST CONNECTION
   (async()=>{

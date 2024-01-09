@@ -4,6 +4,8 @@ const app = express();//app express
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
 const apiRoutes = require('./routes/api')
+const fileUpload = require('express-fileupload');
+
 
 const connection = require('./config/database')
 
@@ -18,6 +20,10 @@ app.use(express.urlencoded({ extended: true })) // for form data
 
 //config template enj
 configViewEngine(app);
+
+// config file upload
+app.use(fileUpload());
+
 
 // khai báo route
 app.use('/',webRoutes);

@@ -15,11 +15,11 @@ const gettest = (req,res) => {
 
 }
 
+const User = require('../models/user')
+
 const getHomePage = async (req,res) => {
-    let results = await getAllUsers();
-    // để check kết quả khi không dùng await, có thể dùng như sau:
-    // console.log ('>>>>>check row', connection.query('select * from Users'))
-    return res.render('home.ejs', {listUsers: results}) // x <- y
+    let results = await User.find({});
+    return res.render('home.ejs', {listUsers: results})
 
 }
 
@@ -30,11 +30,10 @@ const getABC = (req,res) => {
 const postCreateUser = async (req,res) => {
     
     let email = req.body.email;
-    let name = req.body.myname;
+    let name = req.body.name;
     let city = req.body.city;
     console.log ('email = ',email, 'name = ', name , 'city = ', city );
     // let {email, name, city} = req.body;
-
     // connection.query(
     //     `INSERT INTO Users  (EMAIL, NAME , CITY)
     //      VALUES (?, ?, ?)`,
@@ -44,21 +43,17 @@ const postCreateUser = async (req,res) => {
     //     }
     // );
     
-    let [results,fields] = await connection.query(
-        `INSERT INTO Users  (EMAIL, NAME , CITY) VALUES (?, ?, ?)`,[email, name, city]
-    );
-    console.log('>>>>>>check results', results)
-    res.send("create a new user succeed")
-    // connection.query(
-    // 'SELECT * from USERS',
-    // function(err, results, fields) {
-    //     console.log('>>>>>RESULTS =',results); // results contains rows returned by server
-    //     }
+    // let [results,fields] = await connection.query(
+    //     `INSERT INTO Users  (EMAIL, NAME , CITY) VALUES (?, ?, ?)`,[email, name, city]
     // );
-
-    // const[results,fields] = await connection.query('select * from Users u')
-
-    }
+    await User.create({
+        email: email,
+        name: name,
+        city: city,
+    })
+    res.redirect('/')
+    
+}
 
 const getCreatePage = (req,res) => {
     res.render('create.ejs')
@@ -66,10 +61,11 @@ const getCreatePage = (req,res) => {
 
 const getUpdatePage = async(req,res) => {
     const userId = req.params.id
+    // let user = await getUserById(userId)
+    let user = await User.findById(userId).exec();
+    res.render('update.ejs', {userEdit : user}) // x < - y
     // let[results,fields] = await connection.query('select * from Users where id = ? ',[userId]);
     // let user = results && results.length > 0 ? results[0] : {}
-    let user = await getUserById(userId)
-    res.render('update.ejs', {userEdit : user}) // x < - y
 }
 
 const postUpdateUser = async (req,res) => {
@@ -77,8 +73,8 @@ const postUpdateUser = async (req,res) => {
     let email = req.body.email;
     let name = req.body.myname;
     let city = req.body.city; 
-    let userId  = req.body.userId;
-    await updateUserById(email, name, city, userId)
+    let UserId  = req.body.userId;
+    await User.updateOne({ _id: UserId }, { email: email, name: name, city: city});
     // console.log ('email = ',email, 'name = ', name , 'city = ', city, 'userId: ',userId);
     res.redirect('/')
     // res.send("Update a user succeed")
@@ -86,13 +82,17 @@ const postUpdateUser = async (req,res) => {
 
 const postDeleteUser = async(req,res) => {
     const userId = req.params.id
-    let user = await getUserById(userId)
+    let user = await User.findById(userId).exec();
     res.render('delete.ejs',{userEdit : user})
     }
 
 const postHandleRemoveUser = async(req,res) => {
     let userId  = req.body.userId;
-    await deleteUserById(userId);
+    // await deleteUserById(userId);
+    let result = await User.deleteOne({
+        _id:userId
+    })
+    console.log ("result>>>>> :",result)
     res.redirect('/')
     }
 module.exports = {

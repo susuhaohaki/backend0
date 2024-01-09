@@ -64,17 +64,16 @@
 
         <% listUsers.forEach(function(users) { %>
         <tr>
-          <td><%= users.ID %></td>
-          <td><%= users.EMAIL %></td>
-          <td><%= users.NAME %></td>
-          <td><%= users.CITY %></td>
+          <td><%= users.id %></td>
+          <td><%= users.email %></td>
+          <td><%= users.name %></td>
+          <td><%= users.city %></td>
           <td>
-            <a href="/update/<%= users.ID %>">Edit</a>
+            <a href="/update/<%= users.id %>">Edit</a>
 
-            <form action="/delete-user/<%= users.ID %>" method="POST">
+            <form action="/delete-user/<%= users.id %>" method="POST">
               <button>Delete</button>
             </form>
-            
           </td>
         </tr>
         <% }); %>

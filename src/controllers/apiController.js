@@ -1,5 +1,5 @@
 const User = require('../models/user')
-const {uploadSingleFlies} = require("../services/fileService")
+const {uploadSingleFlies, uploadMultipleFiles} = require("../services/fileService")
 
 const getUsersAPI = async (req,res) => {
     let results = await User.find({});
@@ -55,17 +55,43 @@ const deleteUserAPI = async(req,res) => {
     )
     }
 
-    const postUploadSingleFileAPI = async (req,res) =>{
+    const postUploadSingleFileAPI = async (req, res) => {
+
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).send('No files were uploaded.');
-          }
-
+        }
+    
         let result = await uploadSingleFlies(req.files.image);
-        console.log(">>>> check result: ",result)
-
-        return res.send("ok single")
+    
+        return res.status(200).json(
+            {
+                EC: 0,
+                data: result
+            }
+        )
+    }
+    
+// Controller xử lý việc tải lên nhiều tệp tin
+const postUploadMultipleFilesAPI = async (req, res) => {
+    // Kiểm tra xem có tệp tin nào được tải lên không
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
     }
 
+    // Kiểm tra nếu tệp tin được tải lên là một mảng (nhiều tệp tin)
+    if (Array.isArray(req.files.image)) {
+        // Nếu là nhiều tệp tin, gọi hàm xử lý tải lên nhiều tệp tin
+        let result = await uploadMultipleFiles(req.files.image);
+        return res.status(200).json({
+            EC: 0, // Mã lỗi, có thể tùy chỉnh theo yêu cầu
+            data: result // Dữ liệu kết quả từ quá trình tải lên
+        });
+
+    } else {
+        // Nếu chỉ có một tệp tin, gọi hàm xử lý tải lên tệp tin đơn
+        return await postUploadSingleFileAPI(req, res);
+    }
+}
 module.exports = {
-    getUsersAPI,postCreateUsersAPI,putUpdateUserAPI,deleteUserAPI,postUploadSingleFileAPI
+    getUsersAPI,postCreateUsersAPI,putUpdateUserAPI,deleteUserAPI,postUploadSingleFileAPI,postUploadMultipleFilesAPI
 }

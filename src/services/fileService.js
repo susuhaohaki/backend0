@@ -1,6 +1,6 @@
 const uploadSingleFlies = async(fileobject) => {
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let uploadPath = __dirname +'/abc/'+ fileobject.name;
+  let uploadPath = __dirname + fileobject.name;
     try {
         await fileobject.mv(uploadPath);
         return {

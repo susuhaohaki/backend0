@@ -55,13 +55,14 @@ const deleteUserAPI = async(req,res) => {
     )
     }
 
-    const postUploadSingleFileAPI = async (req, res) => {
+const postUploadSingleFileAPI = async (req, res) => {
 
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).send('No files were uploaded.');
         }
     
         let result = await uploadSingleFlies(req.files.image);
+        
     
         return res.status(200).json(
             {
@@ -86,7 +87,7 @@ const postUploadMultipleFilesAPI = async (req, res) => {
             EC: 0, // Mã lỗi, có thể tùy chỉnh theo yêu cầu
             data: result // Dữ liệu kết quả từ quá trình tải lên
         });
-
+        
     } else {
         // Nếu chỉ có một tệp tin, gọi hàm xử lý tải lên tệp tin đơn
         return await postUploadSingleFileAPI(req, res);

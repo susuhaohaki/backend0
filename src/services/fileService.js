@@ -11,16 +11,15 @@ const uploadSingleFlies = async (fileobject) => {
     try {
         await fileobject.mv(uploadPath);
         return {
-            status: "success",
-            path : finalName,
+            status: 'success',
+            path: finalName,
             error: null
         }
-    }
-    catch(err) {
-        console.log(">>>> check err: ",err)
+    } catch (err) {
+        console.log(">>> check error: ", err)
         return {
-            status: "failed",
-            path : null,
+            status: 'failed',
+            path: null,
             error: JSON.stringify(err)
         }
     }

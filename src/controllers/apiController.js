@@ -56,13 +56,11 @@ const deleteUserAPI = async(req,res) => {
     }
 
 const postUploadSingleFileAPI = async (req, res) => {
-
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).send('No files were uploaded.');
         }
     
-        let result = await uploadSingleFlies(req.files.image);
-        
+        let result = await uploadSingleFile(req.files.image);
     
         return res.status(200).json(
             {

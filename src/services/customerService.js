@@ -25,5 +25,15 @@ module.exports = {
             console.log("error",error);
             return null;
         }
+    },
+    getAllCustomerService : async() =>{
+        try {
+            let result = await Customer.find({});
+            return result
+            
+        } catch (error) {
+            console.log("error",error);
+            return null;
+        }
     }
 }

@@ -48,12 +48,23 @@ module.exports = {
     },
     deletedCustomerService: async(id) =>{
         try {
-            let result = await Customer.deleteById({_id:id});
+            let result = await Customer.deleteById({id});
             return result
         } catch (error) {
             console.log ("error", error)
             return null
         }
-
+    },
+    deleteCustomersService: async(ids) => {
+        try {
+            let result = await Customer.delete(
+                {
+                    _id: { $in: ids }
+                })
+                console.log("check result",result,"_id: { $in: ids }",Customer.delete,">>>>>",ids)
+              return result
+        } catch (error) {
+            console.log("error: >>>>",error)
+        }
     }
 }

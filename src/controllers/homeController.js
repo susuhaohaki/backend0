@@ -28,7 +28,7 @@ const getABC = (req,res) => {
 }
 
 const postCreateUser = async (req,res) => {
-    
+
     let email = req.body.email;
     let name = req.body.name;
     let city = req.body.city;

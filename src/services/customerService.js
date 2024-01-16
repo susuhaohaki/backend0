@@ -35,5 +35,15 @@ module.exports = {
             console.log("error",error);
             return null;
         }
+    },
+    putUpdateCustomerService: async(id, name ,email, address) =>{
+        try {
+            let result = await Customer.updateOne({_id:id},{name ,email, address});
+            return result
+        } catch (error) {
+            console.log ("error", error)
+            return null
+        }
+
     }
 }

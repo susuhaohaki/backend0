@@ -1,6 +1,6 @@
 //{key : value}
 const {uploadSingleFlies} = require('../services/fileService')
-const {createCustomerService,createArrayCustomerService,getAllCustomerService,putUpdateCustomerService} = require('../services/customerService')
+const {createCustomerService,createArrayCustomerService,getAllCustomerService,putUpdateCustomerService,deletedCustomerService} = require('../services/customerService')
 module.exports = {
     postCreateCustomer : async (req,res) => {
         let {name,address,phone,email,image,description} = req.body; //let name = req.body.name; let phone = req.body.phone
@@ -60,6 +60,17 @@ module.exports = {
     PutUpdateCustomer :async(req,res) => {
         let {id, name,email,address} = req.body;
         let result = await putUpdateCustomerService(id,name,email,address)
+        return res.status(200).json  (
+            {
+            EC : 0 ,
+            data : result
+            }
+        )
+    },
+    deleteACustomer: async(req,res) => {
+        let id = req.body.id;
+        let result = await deletedCustomerService(id)
+        console.log(id)
         return res.status(200).json  (
             {
             EC : 0 ,

@@ -1,4 +1,5 @@
 //{key : value}
+const aqp =require('api-query-params') ;
 const {uploadSingleFlies} = require('../services/fileService')
 const {createCustomerService,createArrayCustomerService,getAllCustomerService,
     putUpdateCustomerService,deletedCustomerService,deleteCustomersService} = require('../services/customerService')
@@ -51,13 +52,15 @@ module.exports = {
        
     },
     getAllCustomer : async(req,res) => {
-        console.log(req.query)
+
         let limit = req.query.limit;
         let page = req.query.page;
         let name = req.query.name;
+        let address = req.query.address;
         let result = null;
+
         if (limit && page){
-            result = await getAllCustomerService(limit,page,name)
+            result = await getAllCustomerService(limit,page,name,address,req.query)
         }else {
             result = await getAllCustomerService()
         }

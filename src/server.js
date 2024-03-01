@@ -48,9 +48,12 @@ app.use('/v1/api',apiRoutes);
       console.log('Connected successfully to server');
       
       const db = client.db(dbName);
-      const collection = db.collection('documents');
+      const collection = db.collection('customers');
       // the following code examples can be pasted here...
-      
+      // collection.insertOne({"name": "Hoi Dan it"});
+      let a = await collection.findOne({address: "HCM"})
+      console.log("find==> ",a)
+
       //
       app.listen(port, hostname, () => {
         console.log(`backen zero app listening on port ${port}`)
